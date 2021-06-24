@@ -8,3 +8,5 @@ jekyll-theme-prologue.gemspec
 README.md
 screenshot-layouts.png
 screenshot.png
+/_site
+.sass-cache
