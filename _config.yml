@@ -37,10 +37,10 @@ description: >- # this means to ignore newlines until "baseurl:"
   연구하는 과제의 프로젝트 입니다.
 author: codex
 email: codex@innogrid.com
-avatar: assets/images/HCC_Logo_Dark.jpg
+avatar: assets/images/HCC_Logo_Dark.png
 
 # You'll want to customize url and baseurl for your own site:
-baseurl: "/home" # the subpath of your site, e.g. /blog
+baseurl: "" # the subpath of your site, e.g. /blog
 url: "http://hcloud-classic.github.io" # the base hostname & protocol for your site
 
 # Social settings
@@ -62,3 +62,27 @@ google_analytics:
 # The following settings are NECESSARY for the Prologue theme to run:
 theme: jekyll-theme-prologue
 collections: [sections]
+
+
+
+
+## Theme
+markdown: kramdown
+highlighter: rouge
+
+kramdown:
+  footnote_backlink:   '&#x21a9;&#xfe0e;'
+  math_engine:         mathjax
+  math_engine_opts:
+    preview:           true
+    preview_as_code:   true  
+  input: GFM
+  syntax_hightlighter: rouge
+  kramdown:
+  hard_wrap: false
+  auto_ids: true
+  footnote_nr: 1
+  entity_output: as_char
+  toc_levels: 1..6
+  smart_quotes: lsquo,rsquo,ldquo,rdquo
+  enable_coderay: false
