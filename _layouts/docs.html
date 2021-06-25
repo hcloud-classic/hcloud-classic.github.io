@@ -1,0 +1,20 @@
+---
+layout: default
+---
+{%- include header.html scrolly_nav=_posts -%}
+
+<!-- Main -->
+<div id="main">
+	<section class="shade-two">
+	<div style="margin-bottom: 23px">	
+		<h2>Docs</h2>
+	</div>
+	{% for doc in site.posts %}
+		{% if doc.url contains 'doc_' %}
+		<div style="margin-top: 12px">
+			<a href="{{ doc.url | absolute_url }}">{{ doc.title }}&nbsp;&nbsp;[{{ doc.date | date_to_long_string }}]</a>
+		</div>
+		{% endif %}
+	{% endfor %}
+</section>
+</div>
