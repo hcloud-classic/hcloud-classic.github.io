@@ -24,7 +24,7 @@ alpine 운영체제는 가볍고 간단한, 보안성을 목적으로 개발한 
 
 
 
-![0630_1](assets/2021-06-30-doc_독립적_API_Test를_위한_API_Gateway_Dockerize/0630_1-1625024399281.png)
+![0630_1](/assets/images/docs/2021-06-30-doc_독립적_API_Test를_위한_API_Gateway_Dockerize/0630_1-1625024399281.png)
 
 
 
@@ -122,7 +122,7 @@ Container를 배포하기 전에 기존에 실행되고 있던 동일한 Contain
 
 정상적으로 동작이 되는지 접속하여 확인해 봅니다.
 
-![0630_2](assets/2021-06-30-doc_독립적_API_Test를_위한_API_Gateway_Dockerize/0630_2.png)
+![0630_2](/assets/images/docs/2021-06-30-doc_독립적_API_Test를_위한_API_Gateway_Dockerize/0630_2.png)
 
 api gateway는 기관에서 이노그리드의 API테스트를 용이하게 하기 위해 GraphQL의 Playground를 제공합니다.
 
