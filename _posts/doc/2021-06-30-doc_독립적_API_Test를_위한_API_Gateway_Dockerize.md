@@ -1,3 +1,12 @@
+---
+title: 독립적 API Test를 위한 API Gateway Dockerize
+subtitle: 
+layout: post
+icon: fa-book
+order: 3
+---
+# 독립적 API Test를 위한 API Gateway Dockerize
+
 Hcloud Classic에서는 미들웨어의 배포와 이식성을 향상 하기 위해서 Dockerize를 진행 하고 있습니다. 어느정도 개발이 완료된 뒤에 할 예정 이였지만, 백업/복구 소프트웨어인 [Timpani](https://github.com/hcloud-classic/timpani) 와 함께 API테스를 진행하기 위해 독립된 API Gateway를 제공해야 했기 때문에 기존의 Gateway와는 독립적으로 동작하는 서비스를 Docker로 제공 하게 되었습니다.
 
 사실 서비스 자체는 기존의 환경에서 잘 동작 했었기 때문에 Dockerize하는 과정에서 크게 신경 쓸 부분은 없었습니다.
@@ -81,6 +90,7 @@ Hcloud Classic에서는 CI/CD 를 위해 내부에서 Gitlab CI/CD 기능을 사
 Deploy하는 부분 을 공유 드리면 될 것 같습니다.
 
 ```yaml
+{% raw %}
 docker_build:
   stage: build
   script:
@@ -106,6 +116,7 @@ docker_run:
     - echo "Finished"
   only:
     - docker/api_gateway
+{% endraw %}
 ```
 
 Build Stage 을 보면 실행하는 단계가 상당히 많은데요.
