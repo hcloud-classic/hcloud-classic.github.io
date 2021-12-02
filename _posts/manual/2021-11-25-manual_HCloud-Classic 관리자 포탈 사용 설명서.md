@@ -7,8 +7,6 @@ order: 3
 
 ---
 
-# HCloud-Classic 관리자 포탈 사용 설명서
-
 * TOC
 {:toc}
 
