@@ -1,5 +1,5 @@
 ---
-title: 소프트웨어 정의서버 테스트 케이스 가이드
+title: 소프트웨어 정의서버 테스트 케이스 수행 메뉴얼
 subtitle: test
 layout: post
 icon: fa-book
@@ -13,6 +13,11 @@ order: 3
 
 
 해당 메뉴얼은 DISTANT_FORK 계층을 사용자가 지정하여, 특정 계층에서만 DISTANT_FORK 가 수행되도록 하는 방법과 이를 통해 테스트 케이스를 수행 하는 방법을 안내해 드립니다.
+
+메뉴얼을 참고 하시어 각 작업을 수행해 보시고 하단의 링크를 통해 설문에 응답 부탁드립니다.
+[HCloud-Classic 서비스 만족도 평가 설문지](https://docs.google.com/forms/d/1BZV4U_x10NBe5-Q66pat6AfQoxYIWqWJTv7YxyYk5hs/edit?usp=sharing)
+
+# 병렬 프로그래밍
 
 ## Distant Fork?
 
@@ -108,7 +113,23 @@ DISTANT_FORK 는 현재 실행중인 프로세스의 자식 프로세스를 다�
 
 
 
-## DISTANT_FORK 계층 제한 설정 후 make 테스트
+
+
+# 테스트 케이스
+
+하단에 안내 되는 모든 테스트 케이스는 자동으로 수행 되어 분산 되어 있는 각 클러스터에 Fork 되어 멀티코어를 사용 할 수 있도록 자동화 스크립트가 준비되어 있습니다.
+
+## Kernel Compile 을 위한 make
+
+Kernel을 Compile할때에 주로 Makefile에 선언된 절차 대로 실행 하여 빌드를 합니다.
+
+빌드 시에 `make -j xx` 와 같이 `-j` 옵션을 설정 하게 되면, 각 프로세서에 병렬로 할당 되어 수행되는 Job의 수를 설정 할 수 있습니다.
+
+### 수행 작업
+
+기존의 단일 머신에서는 호스트 머신내에서만 병령 프로세싱이 가능하지만, 소프트웨어 정의서버는 각 머신을 클러스터링 하여 통합된 환경에서 동작 가능하게 해줍니다.
+
+### 테스트 수행
 
 - 2개의 Node 로 단일서버를 구성한 후 Leader Node 에서 아래 명령어 들을 차례로 실행하여 make 를 테스트 했을때의 예시입니다.
 
@@ -158,15 +179,11 @@ DISTANT_FORK 는 현재 실행중인 프로세스의 자식 프로세스를 다�
 
 
 
-## DISTANT_FORK 계층 제한 설정 후 테스트
+## Openmpi 기반의 소수 찾기 프로그램
 
 HCC 시스템에서 DISTANT_FORK 의 동작을 테스트 해보시기 위한 스크립트가 준비 되어 있습니다.
 
 `/root/bench_test` 디렉토리에 해당 테스트 파일들이 준비 되어 있습니다.
-
-
-
-### openmpi 테스트
 
 openmpi 테스트 파일이 있는 디렉토리로 이동합니다.
 
@@ -174,7 +191,50 @@ openmpi 테스트 파일이 있는 디렉토리로 이동합니다.
 cd /root/bench_test/openmpi_test
 ```
 
+### 수행 작업
 
+총 2번의 소수찾기 테스트 케이스를 수행 합니다.
+
+1. 1~131072 까지의 소수를 2의 배수로 구간을 분할하여 소수를 찾습니다.
+2. 5~50000 까지의 소수를 10의 배수로 구간을 분할하여 소수를 찾습니다.
+
+```c
+  int n_factor;
+  int n_hi;
+  int n_lo;
+
+  printf ( "\n" );
+  printf ( "PRIME_OPENMP\n" );
+  printf ( "  C/OpenMP version\n" );
+
+  printf ( "\n" );
+  printf ( "  Number of processors available = %d\n", omp_get_num_procs ( ) );
+  printf ( "  Number of threads =              %d\n", omp_get_max_threads ( ) );
+
+  n_lo = 1;
+  n_hi = 131072;
+  n_factor = 2;
+
+  prime_number_sweep ( n_lo, n_hi, n_factor );
+
+  n_lo = 5;
+  n_hi = 500000;
+  n_factor = 10;
+
+  prime_number_sweep ( n_lo, n_hi, n_factor );
+/*
+  Terminate.
+*/
+  printf ( "\n" );
+  printf ( "PRIME_OPENMP\n" );
+  printf ( "  Normal end of execution.\n" );
+
+  return 0;
+```
+
+
+
+### 테스트 수행
 
 현재 사용중인 쉘의 `Current Depth` 를 확인합니다.
 
@@ -230,7 +290,9 @@ mpirun -n 35 $EXEDIR/count_prime 100
 
 
 
-### R
+## R
+
+`/root/bench_test` 디렉토리에 해당 테스트 파일들이 준비 되어 있습니다.
 
 R 테스트 파일이 있는 디렉토리로 이동합니다.
 
@@ -238,7 +300,22 @@ R 테스트 파일이 있는 디렉토리로 이동합니다.
 cd /root/bench_test/R_test
 ```
 
+### 수행 작업
 
+해당 예제는 특잇값 분해(SVD)를 R을 통해 병렬 처리하여 멀티코어에서 작업을 수행 하게 합니다.
+
+수행되는 R 코드는 하단과 같습니다.
+
+```R
+#! /usr/bin/env Rscript
+library("doMC")
+registerDoMC()
+system.time(x <- foreach(i=1:42) %dopar% svd(matrix(rnorm(1000*1000),ncol=1000)))
+```
+
+
+
+### 테스트 수행
 
 현재 사용중인 쉘의 `Current Depth` 를 확인합니다.
 
