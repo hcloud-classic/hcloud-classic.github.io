@@ -1,19 +1,22 @@
 ---
-title: DISTANT_FORK 계층 제한 방법
-subtitle: 
+title: 소프트웨어 정의서버 테스트 케이스 가이드
+subtitle: test
 layout: post
 icon: fa-book
 order: 3
 
 ---
 
-해당 메뉴얼은 DISTANT_FORK 계층을 사용자가 지정하여, 특정 계층에서만 DISTANT_FORK 가 수행되도록 하는 방법에 대해서 설명합니다.
 
 
+
+
+
+해당 메뉴얼은 DISTANT_FORK 계층을 사용자가 지정하여, 특정 계층에서만 DISTANT_FORK 가 수행되도록 하는 방법과 이를 통해 테스트 케이스를 수행 하는 방법을 안내해 드립니다.
+
+## Distant Fork?
 
 DISTANT_FORK 는 현재 실행중인 프로세스의 자식 프로세스를 다른 노드로 이동시킨 후 작업을 처리하도록 하는 기능입니다.
-
-
 
 자식 프로세스가 생성 될때마다 계층이 하나씩 증가하며, HCC 에서는 DISTANT_FORK 가 수행되는 계층을 제한하도록 하는 기능을 제공하고 있씁니다.
 
