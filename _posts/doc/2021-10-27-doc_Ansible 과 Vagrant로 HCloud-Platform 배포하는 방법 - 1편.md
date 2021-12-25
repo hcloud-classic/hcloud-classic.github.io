@@ -664,7 +664,7 @@ $ vi roles/mysql/tasks/middleware_setup.yml
     src: "{{ item }}"
     dest: "{{ middleware_binary_directory }}"
     owner: root
-    mode: 755
+    mode: "0755"
   with_fileglob:
     - binaries/*
 
@@ -673,7 +673,7 @@ $ vi roles/mysql/tasks/middleware_setup.yml
     src: "{{ item }}"
     dest: "{{ systemd_service_files_location }}"
     owner: root
-    mode: 644
+    mode: "0644"
   with_fileglob:
     - systemd-services/*
   changed_when: true
