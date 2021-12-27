@@ -501,7 +501,7 @@ mysql_hcc_dump_directory: "/root/hcc_mysql"
     src: "{{ item }}"
     dest: "{{ mysql_hcc_dump_directory }}"
     owner: root
-    mode: 644
+    mode: "0644"
   with_fileglob:
     - backup/*
 
